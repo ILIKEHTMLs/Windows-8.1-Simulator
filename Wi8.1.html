@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows 8.1 Simulator - From: github</title>
+  <style>
+    /* Remove qualquer margem ou padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Garante que o body e o html ocupem 100% da tela */
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background-image: url('https://c4.wallpaperflare.com/wallpaper/527/822/338/windows-8-operating-systems-microsoft-windows-minimalism-design-wallpaper-preview.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    #Bar {
+      background-color: #2F4F81;
+      width: 100%;
+      height: 40px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    #symbol {
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+
+    #symbol:hover {
+      width: 35px;
+      height: 35px;
+      border: 2px solid #1E355A;
+      border-radius: 5px;
+      background-color: #000;
+    }
+
+    #wimenu {
+      background-color: rgba(46, 15, 88, 0.95);
+      width: 100%;
+      height: calc(100vh - 40px);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+      z-index: 1;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      box-sizing: border-box;
+    }
+
+    #wimenu figure {
+      display: inline-block;
+      margin: 20px;
+      text-align: center;
+    }
+
+    #wimenu img {
+      background-color: #2F4F81;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 150px;
+      height: 150px;
+      transition: 0.3s ease;
+    }
+
+    #wimenu img:hover {
+      background-color: #1E355A;
+      width: 170px;
+      height: 170px;
+    }
+
+    #wimenu figcaption {
+      margin-top: 10px;
+      font-size: 18px;
+      color: white;
+    }
+
+    #App1 {
+      margin: 5px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
+
+    #App1:hover {
+      background-color: #09f;
+      border: 5px solid #0099ff;
+    }
+
+    #RecicleBinPopUp {
+      width: 580px;
+      height: 350px;
+      border: 5px solid black;
+      background-color: #f0f0f0;
+      position: absolute;
+      display: none; /* Inicialmente escondido */
+      top: 100px;
+      left: 100px;
+      z-index: 10;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    #RecicleBinPopUp header {
+      background-color: #7D9ECF;
+      color: white;
+      padding: 5px;
+      cursor: grab;
+      text-align: center;
+      font-weight: bold;
+    }
+    #Iinput {
+      margin-left: 30%;
+    }
+
+    #RecicleBinPopUp p {
+      text-align: center;
+      margin-top: 5px;
+    }
+    #back {
+      width: 50px;
+      height: 20px;
+      color: white;
+      background-color: red;
+      text-align: center;
+      margin-left: 50%;
+    }
+
+    #back:hover {
+      background-color: white;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Ícone de Lixeira -->
+  <img id="App1" src="https://www.eightforums.com/attachments/recycle_bin_empty-png.40964/" alt="Recycle Bin">
+  <br>&nbsp; Lixeira
+
+  <!-- Menu Iniciar -->
+  <div id="wimenu">
+    <figure>
+      <img src="https://www.pngplay.com/wp-content/uploads/12/Windows-Logo-PNG-HD-Photos.png" alt="Windows Logo">
+      <figcaption>Windows</figcaption>
+    </figure>
+    <figure>
+      <img id="fullscreen-btn" src="https://cdn0.iconfinder.com/data/icons/video-editing/100/8-512.png" alt="Full Screen Icon">
+      <figcaption>Full Screen</figcaption>
+    </figure>
+  </div>
+  
+  <!-- Barra de tarefas -->
+  <div id="Bar">
+    <img id="symbol" src="https://www.pngplay.com/wp-content/uploads/12/Windows-Logo-PNG-HD-Photos.png" alt="Windows Logo">
+  </div>
+
+  <!-- Pop-up da Lixeira -->
+  <div id="RecicleBinPopUp">
+    <header>Lixeira<button onclick="back()" id="back">X</button></header>
+    <p>Esta Pasta Está vazia...  <input id="Iinput" type="text" placeholder="Pesquisar em Lixeira"></input></p>
+  </div>
+
+  <script>
+    let ativo = false;
+    let ativou = false;
+    const wimenu = document.getElementById('wimenu');
+    const rec = document.getElementById('RecicleBinPopUp');
+    const botao = document.getElementById('symbol');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const App1 = document.getElementById('App1');
+	
+    // Alterna visibilidade do menu
+    botao.addEventListener('click', () => {
+      ativo = !ativo;
+      wimenu.style.display = ativo ? 'block' : 'none';
+    });
+
+    // Alterna visibilidade da Lixeira
+    function toggleRecOnTrashClick() {
+      ativou = !ativou;
+      rec.style.display = ativou ? 'block' : 'none';
+    }
+
+    function back() {
+      rec.style.display = 'none';
+      ativou = false;
+    }
+
+    App1.addEventListener('click', toggleRecOnTrashClick);
+	
+    // Alterna para o modo tela cheia
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    });
+
+    // Movimentação da Lixeira
+    const header = rec.querySelector('header');
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    header.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - rec.offsetLeft;
+      offsetY = e.clientY - rec.offsetTop;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        rec.style.left = `${e.clientX - offsetX}px`;
+        rec.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  </script>
+</body>
+</html>
